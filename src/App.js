@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './App.css';
+import blob1 from './blobs1.png'
+import blob2 from './blob2.png'
+import First from './First'
+import Quiz from './Quiz'
+import React from 'react';
+import { BrowserRouter, Link, Route, Routes} from 'react-router-dom';
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+  return (<BrowserRouter>
+   <div className="outerbox">
+        <img src={blob1} alt="" className="Blob1"></img>
+        <img src={blob2} alt="" className="Blob2"></img>
+        <Routes>
+        <Route path="/" element={<First/>}/>
+        <Route path="/quiz" element={<Quiz/>}/>
+        </Routes>
+        </div></BrowserRouter>
   );
 }
 
