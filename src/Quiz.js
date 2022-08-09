@@ -41,8 +41,8 @@ export default function Quiz() {
         return quest
     }
     function change(val){
-        setQuestion(questions.map((question)=>{
-           question.options.map(opt=>{
+        setQuestion(question.map((oquestion)=>{
+           oquestion.options.map(opt=>{
             return opt.value===val?{...opt,isSelected:!opt.isSelected}:opt;
            })
         }))
@@ -53,7 +53,7 @@ export default function Quiz() {
         {
             loading ? 
             <div className="loading">Loading questions...</div>
-            : question.map((e,i) => <Question quest={e.question} change={()=>change(e.options.value)} answer={e.answer} allAnswers={e.options} />)
+            : question.map((e,i) => <Question quest={e.question} change={change()} answer={e.answer} allAnswers={e.options} />)
         }
         </div>
         <button className="check">Check answers</button>

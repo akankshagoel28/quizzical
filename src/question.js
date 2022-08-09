@@ -16,13 +16,14 @@ export default function Question(props){
     
     //     return str;
     //   }
+     console.log(props.quest)
 
       const styles={background: props.options.isSelected?"#D6DBF5":"none",
       border: props.options.isSelected?"none":"0.79px solid #4D5B9E"
     };
     return(<div className="questionsection">
-         <p  className="question">{decodeHtmlCharCodes(props.question)}</p>
-        <div className="options">{props.allAnswers.map(opt=><button style={styles} onClick={props.change} className="option">{opt.value}</button>)}</div>
+         <p  className="question">{decodeHtmlCharCodes(props.quest)}</p>
+        <div className="options">{props.allAnswers.map(opt=><button style={styles} onClick={()=>props.change(opt.value)} className="option">{opt.value}</button>)}</div>
         <div className="ending"></div>
     </div>)
 
