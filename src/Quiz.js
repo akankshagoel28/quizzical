@@ -1,61 +1,103 @@
 import React from 'react';
-import Question from './question'
+import Question from './question';
+
 export default function Quiz() {
-    const [questions, setQuestions] = React.useState([]);
-    const [loading, setLoading] = React.useState(true);
+	const [question, setQuestion] = React.useState([]);
+	const [loading, setLoading] = React.useState(true);
+    const [score, setScore]=React.useState(0);
+    const [again,setAgain]=React.useState(false);
+    const [green,setGreen]=React.useState(false);
+    const [red,setRed]=React.useState(false);
+	function setOptions(question) {
+		let a = [];
+		let k = 0;
+		const n = Math.floor(Math.random() * 4);
+		for (let i = 0; i < 4; i++) {
+			if (i === n) {
+				a[i] = {
+					value: question.correct_answer,
+					isSelected: false,
+				};
+				continue;
+			}
+			a[i] = {
+				value: question.incorrect_answers[k],
+				isSelected: false,
+			};
+			k++;
+		}
+		return a;
+	}
 
+	function setAllQuestions(questions) {
+		const quest = questions.map((e) => {
+			return {
+				question: e.question,
+				options: setOptions(e),
+				answer: e.correct_answer,
+			};
+		});
+		console.log('Questions: ', quest);
+		return quest;
+	}
 
-    React.useEffect(function () {
-        fetch("https://opentdb.com/api.php?amount=5&type=multiple")
-            .then(res => res.json())
-            .then(data => {
-                setLoading(false);
-                return setQuestions(data.results)
-            })
-    }, [])
-
-    function setOptions(id){
-    let a=[]; let k=0;
-    const n=Math.floor(Math.random()*4);
-    for(let i=0;i<4;i++){
-      if(i===n)
-      {
-        a[i]={value:questions[id].correct_answer,isSelected:false};
-        continue;
-      }
-      a[i]={value:questions[id].incorrect_answers[k],isSelected:false};
-      k++;
+	React.useEffect(function () {
+		fetch('https://opentdb.com/api.php?amount=5&type=multiple')
+			.then((res) => res.json())
+			.then((data) => {
+				setQuestion(setAllQuestions(data.results));
+				setLoading(false);
+			});
+	}, []);
+    let scores=0;
+    function check(){
+        const newQues=[...question];
+        for(let i=0;i<5;i++){
+            newQues[i].options.map((e) => {
+                if (e.isSelected && e.value === newQues[i].answer) 
+                scores=scores+1;
+                if(e.isSelected && e.value !== newQues[i].answer)
+                setRed(true);
+                if(e.value === newQues[i].answer)
+                setGreen(true);
+        })
     }
-    return a
-}
-    const [question,setQuestion]=React.useState(setAllQuestions())
-    function setAllQuestions(){
-        const quest=[]
-        for(let i=0;i<4;i++){
-           quest.push({
-            question:questions[i].question,
-            options:setOptions(i),
-            answer:questions[i].correct_answer
-           })
-        }
-        return quest
+    setAgain(true)
+    setScore(scores)
     }
-    function change(val){
-        setQuestion(question.map((oquestion)=>{
-           oquestion.options.map(opt=>{
-            return opt.value===val?{...opt,isSelected:!opt.isSelected}:opt;
-           })
-        }))
-      }
-    console.log(questions)
-    return (<div className="outerquiz">
-        <div className="quiz">
-        {
-            loading ? 
-            <div className="loading">Loading questions...</div>
-            : question.map((e,i) => <Question quest={e.question} change={change()} answer={e.answer} allAnswers={e.options} />)
-        }
-        </div>
-        <button className="check">Check answers</button>
-    </div>)
+	function onOptionChange(quesId, val) {
+		const newQues = [...question];
+		newQues[quesId].options = newQues[quesId].options.map((e) => {
+			if (e.value === val) {
+				e.isSelected = true;
+			} else {
+				e.isSelected = false;
+			}
+			return e;
+		});
+		setQuestion(newQues);
+	}
+
+	return (
+		<div className='outerquiz'>
+			<div className='quiz'>
+				{loading && question ? (
+					<div className='loading'>Loading questions...</div>
+				) : (
+					question.map((e, i) => (
+						<Question
+                            red={red}
+                            green={green}
+							question={e.question}
+							onOptionChange={onOptionChange}
+							answer={e.answer}
+							allAnswers={e.options}
+							quesId={i}
+						/>
+					))
+				)}
+			</div>
+			<div className="end"><p>{again?"You scored "+score+"/5 correct answers":""}</p><button className='check' onClick={()=>check()}>{again?"Play again":"Check answers"}</button></div>
+		</div>
+	);
 }
