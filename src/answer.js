@@ -1,6 +1,5 @@
 import React from 'react';
-
-export default function Question(props) {
+export default function Answer(props) {
 	function decodeHtmlCharCodes(str) {
 		return str.replace(/(&#(\d+);)/g, function (match, capture, charCode) {
 			return String.fromCharCode(charCode);
@@ -24,16 +23,11 @@ export default function Question(props) {
 				{props.allAnswers.map((opt) => (
 					<button
 						style={{
-							background: opt.isSelected
-								? '#D6DBF5'
-								: 'none',
-							border: opt.isSelected
+                                 background:  opt.value!==props.answer && opt.isSelected?"#F8BCBC":opt.value===props.answer?"#94D7A2":"none",
+                                 border: opt.isSelected || opt.value===props.answer
 								? 'none'
-								: '0.79px solid #4D5B9E',
+								: '0.79px solid #4D5B9E'
 						}}
-						onClick={() =>
-							props.onOptionChange(props.quesId, opt.value)
-						}
 						className='option'
 					>
 						{opt.value}

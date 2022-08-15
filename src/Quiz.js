@@ -1,5 +1,7 @@
 import React from 'react';
 import Question from './question';
+import { useNavigate} from 'react-router-dom';
+import Answer from './answer';
 
 export default function Quiz() {
 	const [question, setQuestion] = React.useState([]);
@@ -12,7 +14,7 @@ export default function Quiz() {
 		let a = [];
 		let k = 0;
 		const n = Math.floor(Math.random() * 4);
-		for (let i = 0; i < 4; i++) {
+		for (let i = 0; i < question.incorrect_answers.length+1; i++) {
 			if (i === n) {
 				a[i] = {
 					value: question.correct_answer,
@@ -50,6 +52,7 @@ export default function Quiz() {
 			});
 	}, []);
     let scores=0;
+    const navigate=useNavigate();
     function check(){
         const newQues=[...question];
         for(let i=0;i<5;i++){
@@ -59,12 +62,13 @@ export default function Quiz() {
                 if(e.isSelected && e.value !== newQues[i].answer)
                 setRed(true);
                 if(e.value === newQues[i].answer)
-                setGreen(true);
-        })
+                setGreen(true);}
+        )
     }
     setAgain(true)
     setScore(scores)
     }
+
 	function onOptionChange(quesId, val) {
 		const newQues = [...question];
 		newQues[quesId].options = newQues[quesId].options.map((e) => {
@@ -83,11 +87,9 @@ export default function Quiz() {
 			<div className='quiz'>
 				{loading && question ? (
 					<div className='loading'>Loading questions...</div>
-				) : (
+				) : !again? 
 					question.map((e, i) => (
 						<Question
-                            red={red}
-                            green={green}
 							question={e.question}
 							onOptionChange={onOptionChange}
 							answer={e.answer}
@@ -95,9 +97,18 @@ export default function Quiz() {
 							quesId={i}
 						/>
 					))
-				)}
+				:question.map((e, i) => (
+                    <Answer
+                            red={red}
+                            green={green}
+							question={e.question}
+							answer={e.answer}
+							allAnswers={e.options}
+							quesId={i}
+						/>
+                ))}
 			</div>
-			<div className="end"><p>{again?"You scored "+score+"/5 correct answers":""}</p><button className='check' onClick={()=>check()}>{again?"Play again":"Check answers"}</button></div>
+			<div className="end"><p>{again?"You scored "+score+"/5 correct answers":""}</p><button className='check' onClick={again?()=>navigate('/'):()=>check()}>{again?"Play again":"Check answers"}</button></div>
 		</div>
 	);
 }

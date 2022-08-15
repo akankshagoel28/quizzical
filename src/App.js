@@ -1,7 +1,7 @@
 
 import './App.css';
-import blob1 from './blobs1.png'
-import blob2 from './blob2.png'
+import blob1 from './blob1.svg'
+import blob2 from './blob2.svg'
 import First from './First'
 import Quiz from './Quiz'
 import React from 'react';
