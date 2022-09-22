@@ -1,6 +1,6 @@
 # Quizzical App
 
-Created from scratch using reactjs
+Created a fun 5 mcq type quizzzing game from scratch using reactjs
 
 ## Available Scripts
 
