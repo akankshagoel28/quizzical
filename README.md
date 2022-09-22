@@ -1,4 +1,4 @@
-# Quiizical App
+# Quizzical App
 
 Created from scratch using reactjs
 
