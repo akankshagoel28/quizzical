@@ -4,8 +4,8 @@ import { useNavigate} from 'react-router-dom';
 import Answer from './answer';
 
 export default function Quiz() {
-	const [question, setQuestion] = React.useState([]);
-	const [loading, setLoading] = React.useState(true);
+    const [question, setQuestion] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
     const [score, setScore]=React.useState(0);
     const [again,setAgain]=React.useState(false);
     const [green,setGreen]=React.useState(false);
