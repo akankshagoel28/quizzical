@@ -1,22 +1,14 @@
 # Quizzical App
 
-Created a fun 5 MCQ type quizzing game from scratch using ReactJs
-## Available Scripts
+## Created a fun 5 MCQ type quizzing game from scratch using ReactJs
 
-In the project directory, you can run:
+## To run the project you need to run the following commands:
+1. `npm install`
+2. `npm start`
 
-### `npm start`
-
-Runs the app in the development mode.\
+Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
 This project was a part of my ReactJs practice.
 
